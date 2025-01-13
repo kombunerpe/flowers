@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Payment Page</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    />
+    <style>
+      .container {
+        max-width: 600px;
+        margin-top: 50px;
+      }
+      .card {
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+      .btn-rounded {
+        border-radius: 10px;
+      }
+      .btn-pay {
+        background-color: #c91717;
+        color: white;
+      }
+      .mb-3 input {
+        border-color: transparent;
+      }
+
+      button {
+        --background: #cf2b2b;
+        --text: #fff;
+        --font-size: 16px;
+        --duration: 0.44s;
+        --move-hover: -4px;
+        --shadow: 0 2px 8px -1px rgba(39, 94, 254, 0.32);
+        --shadow-hover: 0 4px 20px -2px rgba(39, 94, 254, 0.5);
+        --font-shadow: var(--font-size);
+        padding: 16px 32px;
+        font-family: 'Courier New', Courier, monospace;
+        font-weight: 500;
+        line-height: var(--font-size);
+        border-radius: 10px;
+        display: block;
+        outline: none;
+        appearance: none;
+        border: none;
+        text-decoration: none;
+        font-size: var(--font-size);
+        letter-spacing: 0.5px;
+        background: var(--background);
+        color: var(--text);
+        box-shadow: var(--shadow);
+        transform: translateY(var(--y)) translateZ(0);
+        transition: transform var(--duration) ease, box-shadow var(--duration) ease;
+      }
+
+      button:hover {
+        --y: var(--move-hover);
+        --shadow: var(--shadow-hover);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="card">
+        <h4 class="text-center">Payment Master</h4>
+        <form id="paymentForm" method="POST" name="submit-to-google-sheet">
+          <hr />
+          <div class="mb-3">
+            <strong for="engine">Engine:</strong>
+            <input name="engine" id="engine" readonly />
+          </div>
+          <div class="mb-3">
+            <strong for="price">Price:</strong>
+            <input name="price" id="price" readonly />
+          </div>
+          <div class="mb-3">
+            <strong for="options">Selected Option:</strong>
+            <input name="option" id="options" readonly />
+          </div>
+          <hr />
+          <div class="form-group">
+            <label for="name">Full Name</label>
+            <input
+              type="text"
+              class="form-control"
+              id="name"
+              name="name"
+              placeholder="Enter Your Name"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input
+              type="email"
+              class="form-control"
+              id="email"
+              name="email"
+              placeholder="Enter Your Email"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="numberhp">No Handphone</label>
+            <input
+              type="tel"
+              class="form-control"
+              id="numberhp"
+              name="numberhp"
+              placeholder="Enter Your Number"
+              pattern="[\+]?[0-9]{10,15}"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="card">Card Number</label>
+            <input
+              type="text"
+              class="form-control"
+              id="card"
+              name="card"
+              required
+              pattern="\d{18}"
+              placeholder="Enter 18-digit card number"
+            />
+          </div>
+          <!-- Hidden timestamp field -->
+          <input type="hidden" id="timestamp" name="timestamp" />
+          <button type="submit" id="submit" class="payment-form-submit-button">
+            SUBMIT
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <script>
+      // Get the URL parameters from the query string
+      const urlParams = new URLSearchParams(window.location.search);
+      const price = urlParams.get('product-price');
+      const options = urlParams.get('product-option');
+      const engine = urlParams.get('product-engine');
+
+      // Display the parameters on the page
+      document.getElementById('price').value = price || 'Not available';
+      document.getElementById('options').value = options || 'Not selected';
+      document.getElementById('engine').value = engine || 'Not specified';
+
+      // Set the timestamp value when the page loads
+      document.getElementById('timestamp').value = new Date().toISOString(); // Use ISO format
+    </script>
+
+    <script>
+      const scriptURL =
+        'https://script.google.com/macros/s/AKfycbxNC8i4311vV9FehVgPbRjFwTLiaA2VojQom2jYEcQ-AgRSkFNRLC-ocfX2WP4bppI/exec'; // Replace with the actual script URL
+      const form = document.forms['submit-to-google-sheet'];
+
+      form.addEventListener('submit', (e) => {
+        e.preventDefault(); // Prevent default form submission
+
+        // Check if the scriptURL is available before submitting the form
+        fetch(scriptURL, {
+          method: 'POST',
+          body: new FormData(form),
+        })
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error('Failed to submit to Google Sheets');
+            }
+            // Redirect after successful submission
+            window.location.href = '../indexcopy2.html';
+          })
+          .catch((error) => {
+            console.error('Error:', error.message);
+            // Redirect to error page with a friendly message
+            window.location.href = '/error.html';
+          });
+      });
+    </script>
+    <script>
+      // Wrap each character of the button text for special effect
+      document
+        .querySelectorAll('button')
+        .forEach(
+          (button) =>
+            (button.innerHTML =
+              '<div><span>' +
+              button.textContent.trim().split('').join('</span><span>') +
+              '</span></div>')
+        );
+    </script>
+  </body>
+</html>

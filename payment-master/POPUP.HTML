@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Halaman dengan Popup Iklan</title>
+  <style>
+    /* Popup utama */
+    .popup {
+      display: none; /* Mulai dengan popup tersembunyi */
+      position: fixed;
+      top: 50%;
+      left: 50%; /* Posisi tengah secara horizontal */
+      transform: translate(-50%, -50%) translateX(100%); /* Memulai dari luar layar kanan */
+      width: 80%;
+      height: 80%;
+      background-size: cover;
+      background-position: center;
+      z-index: 1000;
+      padding: 20px;
+      box-shadow: 0 4px 8px transparent;
+      transition: transform 1s ease-out; /* Transisi slide masuk */
+    }
+
+    /* Popup kecil yang muncul di pojok kanan atas */
+    .popup1 {
+      display: none; /* Mulai dengan popup tersembunyi */
+      position: fixed;
+      top: 10px;   /* Posisikan di atas */
+      right: 10px; /* Posisikan di kanan */
+      width: 50px;
+      height: 50px;
+      background-size: cover;
+      background-position: center;
+      z-index: 1000; /* Pastikan popup kecil ini di atas popup besar */
+      padding: 10px;
+      
+      transition: transform 1s ease-out; /* Transisi slide masuk */
+      border: 2px solid transparent;  /* Border merah */
+    }
+
+    /* Ganti latar belakang dengan berbagai gambar */
+    .popup-1 { background-image: url('./list-producst/img/instagram-4k-vf-1920x1080.jpg'); }
+    .popup-2 { background-image: url('./list-producst/img/wp8806017-fotor-202412237545.jpg'); }
+    .popup-3 { background-image: url('./list-producst/img/R.jpg'); }
+    .popup-4 { background-image: url('./list-producst/img/illustration-3d-numbers-for-social-media-67k-likes-thanks-celebrating-subscribers-fans-banner-with-67000-followers-free-vector.jpg'); }
+    .popup-5 { background-image: url('./list-producst/img/R.jpg'); }
+    .popup-6 { background-image: url('./list-producst/img/1000-followers.jpg'); }
+
+    /* Overlay untuk popup */
+    .popup-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: transparent; /* Membuat overlay menjadi solid */
+      z-index: 999;
+    }
+
+    /* Tombol besar yang mengisi seluruh popup */
+    .popup button {
+      width: 100%;
+      height: 100%;
+      background-color: transparent;
+      color: white;
+      font-size: 24px;
+      border: none;
+      cursor: pointer;
+      text-align: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    /* Tombol Close */
+    .close-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background-color: rgba(0, 0, 0, 0.5);
+      color: black;
+      font-size: 20px;
+      border: 2px solid transparent;
+      padding: 10px 15px;
+      cursor: pointer;
+      border-radius: 5px;
+      z-index: 1001; /* Pastikan tombol close tetap berada di atas popup */
+    }
+
+    /* Efek hover untuk tombol Close */
+    .close-btn:hover {
+      background-color: transparent;
+    }
+
+    /* Efek hover untuk tombol */
+    .popup button:hover {
+      background-color: rgba(0, 0, 0, 0.3);
+    }
+
+    /* Teks "PAID PROMOTION" */
+    .popup-content {
+      position: absolute;
+      top: 20%;
+      left: 50%;
+      transform: translateX(-50%);
+      color: white;
+      font-size: 32px;
+      font-weight: bold;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+      text-align: center;
+    }
+
+    /* Teks "Klik untuk melanjutkan" */
+    .popup-content span {
+      display: block;
+      font-size: 20px;
+      margin-top: 10px;
+      font-style: italic;
+    }
+
+  </style>
+</head>
+<body>
+
+  <h1>Halaman dengan Popup</h1>
+  <p>Ini adalah contoh halaman yang menampilkan pop-up iklan setelah beberapa detik.</p>
+
+  <!-- Tombol untuk membuka popup -->
+  <button onclick="showPopup()">Tampilkan Popup</button>
+
+  <!-- Overlay dan Popup Iklan -->
+  <div class="popup-overlay" id="popup-overlay"></div>
+  
+  <!-- Popup Kecil di pojok kanan atas -->
+  <div class="popup1" id="popup1">
+    <button class="close-btn" onclick="closePopup()">X</button>
+  </div>
+  
+  <!-- Popup besar -->
+  <div class="popup" id="popup">
+  
+    <!-- Konten Popup -->
+    <div class="popup-content">
+      <p>PAID PROMOTION</p>
+      <span>Click to continue</span>
+    </div>
+    <button onclick="redirectToPage()">Klik untuk melanjutkan</button>
+  </div>
+
+  <script>
+    let currentPopup = 1; // Menandakan gambar popup pertama
+
+    // Fungsi untuk menampilkan popup
+    function showPopup() {
+      document.getElementById('popup').style.display = 'flex'; // Menampilkan pop-up
+      document.getElementById('popup-overlay').style.display = 'block'; // Menampilkan overlay
+      document.getElementById('popup').style.transform = 'translate(-50%, -50%)'; // Slide popup masuk
+      changeBackground(); // Ganti background saat popup tampil
+      document.getElementById('popup1').style.display = 'block'; // Menampilkan popup kecil
+    }
+
+    // Fungsi untuk menutup popup
+    function closePopup() {
+      document.getElementById('popup').style.display = 'none'; // Menyembunyikan popup besar
+      document.getElementById('popup1').style.display = 'none'; // Menyembunyikan popup kecil
+      document.getElementById('popup-overlay').style.display = 'none'; // Menyembunyikan overlay
+    }
+
+    // Fungsi untuk mengganti background secara bergantian
+    function changeBackground() {
+      setInterval(function() {
+        currentPopup++; 
+        if (currentPopup > 6) {
+          currentPopup = 1; 
+        }
+
+        // Mengubah kelas berdasarkan gambar background yang aktif
+        let popupElement = document.getElementById('popup');
+        popupElement.classList.remove('popup-1', 'popup-2', 'popup-3', 'popup-4', 'popup-5', 'popup-6'); 
+
+        if (currentPopup === 1) {
+          popupElement.classList.add('popup-1');
+        } else if (currentPopup === 2) {
+          popupElement.classList.add('popup-2');
+        } else if (currentPopup === 3) {
+          popupElement.classList.add('popup-3');
+        } else if (currentPopup === 4) {
+          popupElement.classList.add('popup-4');
+        } else if (currentPopup === 5) {
+          popupElement.classList.add('popup-5');
+        } else if (currentPopup === 6) {
+          popupElement.classList.add('popup-6');
+        }
+      }, 5000); // Ganti gambar setiap 5 detik
+    }
+
+    // Fungsi untuk redirect ke halaman contoh.html
+    function redirectToPage() {
+      window.location.href = 'contoh.html'; // Redirect ke contoh.html
+    }
+
+    // Tampilkan popup setelah 1 detik
+    setTimeout(showPopup, 1000); // Popup muncul setelah 1 detik
+
+  </script>
+
+</body>
+</html>

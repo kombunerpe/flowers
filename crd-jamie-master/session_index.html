@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Isi Data Pengguna</title>
+</head>
+<body>
+    <h1>Masukkan Nama Pengguna</h1>
+    
+    <!-- Form untuk mengisi nama pengguna -->
+    <form id="usernameForm">
+        <label for="username">Nama Pengguna:</label>
+        <input hidden type="text" id="username" name="username" value="username" required>
+        <button type="submit">Simpan Nama Pengguna</button>
+    </form>
+
+    <script>
+        // Menangani form submission untuk menyimpan nama pengguna dalam sessionStorage
+        document.getElementById('usernameForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Mencegah form untuk reload halaman
+
+            var username = document.getElementById('username').value;
+            // Menyimpan nama pengguna ke sessionStorage
+            sessionStorage.setItem('username', username);
+
+            // Redirect ke halaman index.html setelah data disimpan
+            window.location.href = 'index.html'; // Redirect ke halaman index.html
+        });
+    </script>
+</body>
+</html>

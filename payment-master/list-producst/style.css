@@ -1,0 +1,72 @@
+/* General background color and text styling */
+        body {
+            background-color: transparent; /* Transparent background */
+            color: #fff; /* Light text color */
+        }
+
+        .card-body { 
+            padding: 0; 
+        }
+
+        .card-img-top { 
+            width: 100%; 
+        }
+
+        .mid { 
+            padding: 10px; 
+        }
+
+        .card { 
+            width: 100%; 
+            max-width: 280px; /* Reduce size of each card */
+            margin: 10px; 
+            border: none; /* Remove border */
+            background-color: transparent; /* Dark card background */
+            color: #fff; /* Light text for card */
+        }
+
+        .row {
+            display: flex;
+            justify-content: center; /* Center the cards horizontally */
+            flex-wrap: wrap; /* Allow wrapping if there are more than 3 cards */
+        }
+
+        /* Button Style */
+        .btn-rounded {
+            border-radius: 10px; /* Make the button more rounded */
+            opacity: 0.8; /* Add opacity */
+            transition: opacity 0.3s ease; /* Smooth transition for opacity */
+        }
+
+        .btn-rounded:hover {
+            opacity: 1; /* Full opacity when hovering */
+        }
+
+        /* Custom input styles */
+        .custom-input {
+            width: 100%;
+            padding: 5px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            margin-top: 5px;
+        }
+
+        .text-muted {
+            color: #aaa !important; /* Lighter muted text for dark theme */
+        }
+
+        .product-price {
+            color: #000000; /* Gold color for price to stand out */
+        }
+
+        /* Styling for the option dropdown */
+        .custom-select {
+            background-color: #555; /* Dark background for dropdown */
+            color: #fff; /* Light text for dropdown */
+            border: 1px solid #666; /* Dark border for the dropdown */
+        }
+
+        .custom-select option {
+            background-color: #444; /* Dark background for options */
+            color: #fff; /* Light text color for options */
+        }

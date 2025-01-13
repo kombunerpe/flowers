@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Product</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    />
+    <style>
+      .card-body {
+        padding: 0;
+      }
+      .card-img-top {
+        width: 100%;
+      }
+      .mid {
+        padding: 10px;
+      }
+      .card {
+        width: 100%;
+        max-width: 280px; /* Reduce size of each card */
+        margin: 10px;
+        border: none; /* Remove border */
+        background-color: transparent; /* Set background to transparent */
+      }
+      .row {
+        display: flex;
+        justify-content: center; /* Center the cards horizontally */
+        flex-wrap: wrap; /* Allow wrapping if there are more than 3 cards */
+      }
+
+      /* Button Style */
+      .btn-rounded {
+        border-radius: 10px; /* Make the button more rounded */
+        opacity: 0.8; /* Add opacity */
+        transition: opacity 0.3s ease; /* Smooth transition for opacity */
+      }
+
+      .btn-rounded:hover {
+        opacity: 1; /* Full opacity when hovering */
+      }
+
+      /* Custom input styles */
+      .custom-input {
+        width: 100%;
+        padding: 5px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        margin-top: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container-fluid">
+      <div class="row mt-5" id="product-cards-container">
+        <!-- Product cards will be injected here by JavaScript -->
+      </div>
+    </div>
+
+    <script>
+      const productData = [
+        {
+          imageUrl: 'img/output-onlinepngtools.png',
+          price: 'Rp.25.000,00',
+          fuelEfficiency: '8.5/7.1',
+          engine: 'Instagram',
+          horsepower: '135 hp',
+          options: {
+            '100': '25000',
+            '200': '45000',
+            '500': '70000',
+            '1000': '500000',
+          },
+        },
+        {
+          imageUrl: 'img/facebook.png',
+          price: 'Rp.45.000,00',
+          fuelEfficiency: '8.5/7.1',
+          engine: 'Facebook',
+          horsepower: '135 hp',
+          options: {
+            '100': '25000',
+            '200': '45000',
+            '500': '70000',
+            '1000': '500000',
+          },
+        },
+        {
+          imageUrl: 'img/youtube.png',
+          price: 'Rp.70.000,00',
+          fuelEfficiency: '',
+          engine: 'Youtube',
+          horsepower: '135 hp',
+          options: {
+            '100': '25000',
+            '200': '45000',
+            '500': '70000',
+            '1000': '500000',
+          },
+        },
+      ]
+
+      function generateCard(product, index) {
+        return `
+            <div class="col-sm-4 col-md-3 col-lg-2">
+                <!-- Form Action Set to indexpay.html with method GET -->
+                <form action="./payment-master/list-producst/indexpay.html" method="GET" name="submit-to-google-sheet">
+                    <img src="${product.imageUrl}" class="card-img-top">
+                    <div class="card-body pt-0 px-0">
+                        <div class="d-flex flex-row justify-content-between mb-0 px-3">
+                            <small class="text-muted mt-1">PRICE</small>
+                            <h6 class="product-price" id="product-price-${index}" name="product-price1">${product.price}</h6>
+                        </div>
+                        <hr class="mt-2 mx-3">
+                        <div class="d-flex flex-row justify-content-between px-3 pb-4">
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <label class="input-group-text" for="inputGroupSelect${index}">Options</label>
+                                </div>
+                                <select class="custom-select option-select" name="options" id="inputGroupSelect${index}" data-product-index="${index}">
+                                    <option selected>Choose...</option>
+                                    <option value="100">100</option>
+                                    <option value="200">200</option>
+                                    <option value="500">500</option>
+                                    <option value="1000">1000</option>
+                                </select>
+                            </div>
+                        </div>
+                        <small class="text-muted key pl-3">${product.engine}</small>
+                        
+                        <!-- Hidden input for price, selected option, and engine -->
+                        <input type="hidden" name="product-price" class="hidden-price" value="${product.price}" required>
+                        <input type="hidden" name="product-option" class="hidden-option" value="100" required>
+                        <input type="hidden" name="product-engine" class="hidden-engine" value="${product.engine}" required>
+
+                        <div class="mx-3 mt-3 mb-2">
+                            <button type="submit" class="btn btn-warning btn-block btn-rounded"><small>PAY</small></button>
+                        </div>
+                    </div>
+                    
+                </form>
+            </div>
+            `
+      }
+
+      // Inject product cards into the page
+      const container = document.getElementById('product-cards-container')
+      productData.forEach((product, index) => {
+        container.innerHTML += generateCard(product, index)
+      })
+
+      // Add event listener to the select options
+      const optionSelects = document.querySelectorAll('.option-select')
+      optionSelects.forEach((select) => {
+        select.addEventListener('change', function () {
+          const selectedValue = this.value
+          const productIndex = this.getAttribute('data-product-index')
+          const selectedProduct = productData[productIndex]
+
+          // Ensure that only valid values are selected (100, 200, 500, 1000)
+          if (selectedValue === 'Choose...') return
+
+          // Update the price text in the card
+          const priceElement = document.getElementById(
+            `product-price-${productIndex}`,
+          )
+          if (priceElement) {
+            const newPrice = selectedProduct.options[selectedValue]
+            priceElement.textContent = newPrice
+          }
+
+          // Update the hidden price input
+          const hiddenPriceInput = this.closest('form').querySelector(
+            '.hidden-price',
+          )
+          if (hiddenPriceInput) {
+            hiddenPriceInput.value = selectedProduct.options[selectedValue]
+          }
+
+          // Update the hidden option input
+          const hiddenOptionInput = this.closest('form').querySelector(
+            '.hidden-option',
+          )
+          if (hiddenOptionInput) {
+            hiddenOptionInput.value = selectedValue
+          }
+
+          // Update the hidden engine input
+          const hiddenEngineInput = this.closest('form').querySelector(
+            '.hidden-engine',
+          )
+          if (hiddenEngineInput) {
+            hiddenEngineInput.value = selectedProduct.engine
+          }
+        })
+      })
+    </script>
+
+    <script>
+      // Avoid redirecting more than once
+      document.addEventListener('DOMContentLoaded', () => {
+        if (!sessionStorage.getItem('redirected')) {
+          window.location.href = 'session_index.html' // Redirect to specific page
+          sessionStorage.setItem('redirected', 'true')
+        }
+      })
+    </script>
+    <script>
+      const scriptURL =
+        'https://script.google.com/macros/s/AKfycbyjcXwNM62caLN9lYDVxYqQcfY3ZLfgsJAHVW0F78UMb_7364XRZDio1zHd9UnfN0w/exec'
+      const form = document.forms['submit-to-google-sheet']
+
+      // Mengecek apakah scriptURL tidak kosong atau valid
+      if (!scriptURL) {
+        console.error('scriptURL tidak ditemukan!')
+        window.location.href = '/error.html' // Redirect ke halaman error jika scriptURL tidak ada
+      }
+
+      form.addEventListener('submit', (e) => {
+        e.preventDefault()
+
+        // Mengecek apakah scriptURL dapat dijangkau sebelum melanjutkan
+        fetch(scriptURL, {
+          method: 'POST',
+          body: new FormData(form),
+        })
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error('Failed to submit to Google Sheets')
+            }
+            // alert('Confirm Your Payment!')
+            // window.location.reload()
+          })
+          .catch((error) => {
+            console.error('Error:', error.message)
+            // Redirect ke halaman error jika fetch gagal
+            window.location.href = '/error.html' // Ubah URL ini sesuai dengan halaman error yang diinginkan
+          })
+      })
+    </script>
+  </body>
+</html>

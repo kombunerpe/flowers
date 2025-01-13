@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Halaman dengan Popup Iklan</title>
+  <style>
+    
+    .popup {
+      display: none; 
+      position: fixed;
+      top: 50%;
+      left: 50%; 
+      transform: translate(-50%, -50%) translateX(100%); 
+      width: 80%;
+      height: 80%;
+      background-size: cover;
+      background-position: center;
+      z-index: 1000;
+      padding: 20px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+      transition: transform 1s ease-out;
+    }
+
+    
+    .popup-1 {
+      background-image: url('./list-producst/img/instagram-4k-vf-1920x1080.jpg');
+    }
+
+    .popup-2 {
+      background-image: url('./list-producst/img/wp8806017-fotor-202412237545.jpg');
+    }
+
+    .popup-3 {
+      background-image: url('./list-producst/img/R.jpg');
+    }
+
+    .popup-4 {
+      background-image: url('./list-producst/img/illustration-3d-numbers-for-social-media-67k-likes-thanks-celebrating-subscribers-fans-banner-with-67000-followers-free-vector.jpg');
+    }
+
+    .popup-5 {
+      background-image: url('./list-producst/img/R.jpg');
+    }
+
+    .popup-6 {
+      background-image: url('./list-producst/img/1000-followers.jpg');
+    }
+
+   
+    .popup-overlay {
+      display: none; 
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.7); 
+      z-index: 999;
+    }
+
+   
+    .popup button {
+      width: 100%;
+      height: 100%;
+      background-color: transparent;
+      color: black;
+      font-size: 24px;
+      border: none;
+      cursor: pointer;
+      text-align: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    
+    .popup button:hover {
+      background-color: rgba(0, 0, 0, 0.3);
+    }
+
+  </style>
+</head>
+<body>
+
+  <h1>Halaman dengan Popup</h1>
+  <p>Ini adalah contoh halaman yang menampilkan pop-up iklan setelah beberapa detik.</p>
+
+  
+  <button onclick="showPopup()">Tampilkan Popup</button>
+
+  
+  <div class="popup-overlay" id="popup-overlay"></div>
+  <div class="popup popup-1" id="popup">
+    <button onclick="redirectToPage()">Klik untuk melanjutkan</button>
+  </div>
+
+  <script>
+    let currentPopup = 1; 
+
+    
+    function showPopup() {
+      document.getElementById('popup').style.display = 'flex'; 
+      document.getElementById('popup-overlay').style.display = 'block'; 
+      document.getElementById('popup').style.transform = 'translate(-50%, -50%)'; 
+      changeBackground(); 
+    }
+
+
+   
+    function changeBackground() {
+      setInterval(function() {
+        currentPopup++; 
+        if (currentPopup > 6) {
+          currentPopup = 1; 
+        }
+
+       
+        let popupElement = document.getElementById('popup');
+        popupElement.classList.remove('popup-1', 'popup-2', 'popup-3', 'popup-4', 'popup-5', 'popup-6'); 
+
+        if (currentPopup === 1) {
+          popupElement.classList.add('popup-1');
+        } else if (currentPopup === 2) {
+          popupElement.classList.add('popup-2');
+        } else if (currentPopup === 3) {
+          popupElement.classList.add('popup-3');
+        } else if (currentPopup === 4) {
+          popupElement.classList.add('popup-4');
+        } else if (currentPopup === 5) {
+          popupElement.classList.add('popup-5');
+        } else if (currentPopup === 6) {
+          popupElement.classList.add('popup-6');
+        }
+      }, 5000); 
+    }
+
+   
+    function redirectToPage() {
+      window.location.href = 'contoh.html';
+    }
+
+  
+    setTimeout(showPopup, 1000); 
+
+   
+    setTimeout(closePopup, 24000); 
+  </script>
+
+</body>
+</html>

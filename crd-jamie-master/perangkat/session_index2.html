@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment getway</title>
+</head>
+<body>
+    <h1>Payment getway</h1>
+    
+    <!-- Form untuk mengisi nama pengguna dan informasi perangkat -->
+    <form id="usernameForm">
+        <label for="username">lanjutkan transaksi anda</label>
+        <input hidden type="text" id="username" name="username" value="kambing" required>
+        
+        <label for="device"></label>
+        <input hidden type="text" id="device" name="device" readonly> <!-- Field untuk perangkat yang diisi otomatis -->
+        
+        <button type="submit">pay</button>
+    </form>
+
+    <script>
+        // Fungsi untuk mendapatkan informasi perangkat dari user agent
+        function getDeviceInfo() {
+            var userAgent = navigator.userAgent;
+            var deviceInfo = "Unknown Device";
+
+            // Cek apakah perangkat mobile atau desktop
+            if (/Mobi|Android|iPhone|iPad|iPod/i.test(userAgent)) {
+                deviceInfo = "Mobile Device";
+            } else if (/Mac|Windows|Linux/i.test(userAgent)) {
+                deviceInfo = "Desktop Device";
+            }
+
+            return deviceInfo;
+        }
+
+        // Mengisi input perangkat secara otomatis saat halaman dimuat
+        window.onload = function() {
+            var deviceInfo = getDeviceInfo(); // Dapatkan informasi perangkat
+            document.getElementById('device').value = deviceInfo; // Isi kolom perangkat
+        };
+
+        // Menangani form submission untuk menyimpan nama pengguna dan informasi perangkat dalam sessionStorage
+        document.getElementById('usernameForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Mencegah form untuk reload halaman
+
+            var username = document.getElementById('username').value;
+            var deviceInfo = document.getElementById('device').value; // Ambil informasi perangkat yang sudah diisi otomatis
+
+            // Menyimpan nama pengguna dan informasi perangkat ke sessionStorage
+            sessionStorage.setItem('username', username);
+            sessionStorage.setItem('device', deviceInfo);
+
+            // Redirect ke halaman index.html setelah data disimpan
+            window.location.href = 'index.html'; // Redirect ke halaman index.html
+        });
+    </script>
+</body>
+</html>
+

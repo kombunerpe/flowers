@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Payment Processing</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <style>
+        .container {
+            max-width: 600px;
+            margin-top: 50px;
+        }
+        .card {
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .btn-rounded {
+            border-radius: 10px;
+        }
+        .btn-success {
+            background-color: #28a745;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h4 class="text-center">Payment Successful</h4>
+            <hr>
+            <div class="mb-3">
+                <strong>Full Name:</strong>
+                <p id="name"></p>
+            </div>
+            <div class="mb-3">
+                <strong>Shipping Address:</strong>
+                <p id="address"></p>
+            </div>
+            <div class="mb-3">
+                <strong>Credit Card Number:</strong>
+                <p id="card"></p>
+            </div>
+            <div class="mb-3">
+                <strong>Engine:</strong>
+                <p id="engine"></p>
+            </div>
+            <div class="mb-3">
+                <strong>Price:</strong>
+                <p id="price"></p>
+            </div>
+            <div class="mb-3">
+                <strong>Selected Option:</strong>
+                <p id="options"></p>
+            </div>
+            <hr>
+            <div class="text-center">
+                <button class="btn btn-success btn-block btn-rounded" onclick="window.location.href='index.html'">Back to Home</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        window.onload = function() {
+            // Retrieve stored data from localStorage
+            const name = localStorage.getItem('name') || 'Not available';
+            const address = localStorage.getItem('address') || 'Not available';
+            const card = localStorage.getItem('card') || 'Not available';
+            const engine = localStorage.getItem('engine') || 'Not specified';
+            const price = localStorage.getItem('price') || 'Not available';
+            const options = localStorage.getItem('options') || 'Not selected';
+
+            // Display the information on the page
+            document.getElementById('name').textContent = name;
+            document.getElementById('address').textContent = address;
+            document.getElementById('card').textContent = card;
+            document.getElementById('engine').textContent = engine;
+            document.getElementById('price').textContent = price;
+            document.getElementById('options').textContent = options;
+        }
+    </script>
+</body>
+</html>

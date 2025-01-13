@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Halaman Index</title>
+</head>
+<body>
+    <h1>Selamat datang di halaman index!</h1>
+    <div id="greeting"></div>
+    <div id="deviceInfo"></div>
+
+    <script>
+        // Mengecek apakah sessionStorage memiliki data pengguna
+        if (!sessionStorage.getItem('username') || !sessionStorage.getItem('device')) {
+            // Jika data nama pengguna atau perangkat tidak ada, redirect ke session_index.html
+            window.location.href = 'session_index.html';
+        } else {
+            // Jika ada, tampilkan pesan selamat datang dan informasi perangkat
+            document.getElementById('greeting').innerText = 'Selamat datang, ' + sessionStorage.getItem('username') + '!';
+            document.getElementById('deviceInfo').innerText = 'Perangkat yang digunakan: ' + sessionStorage.getItem('device');
+        }
+    </script>
+</body>
+</html>

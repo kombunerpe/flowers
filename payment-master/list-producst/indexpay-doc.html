@@ -1,0 +1,368 @@
+<!-- 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Payment Page</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <style>
+        .container {
+            max-width: 600px;
+            margin-top: 50px;
+        }
+        .card {
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .btn-rounded {
+            border-radius: 10px;
+        }
+        .btn-pay {
+            background-color: #c91717;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h4 class="text-center">Payment Information</h4>
+            <form id="paymentForm" method="POST" onsubmit="submitForm(event)">
+                <hr>
+                <div class="mb-3">
+                    <strong for="engine">Engine:</strong>
+                    <p name="engine" id="engine"></p>
+                </div>
+                <div class="mb-3">
+                    <strong for="price">Price:</strong>
+                    <p name="price" id="price"></p>
+                </div>
+                <div class="mb-3">
+                    <strong for="options">Selected Option:</strong>
+                    <p name="option" id="options"></p>
+                </div>
+                <hr>
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <input type="text" class="form-control" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="address">Shipping Address</label>
+                    <textarea class="form-control" id="address" name="address" rows="3" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="card">Credit Card Number</label>
+                    <input type="text" class="form-control" id="card" name="card" required pattern="\d{16}" placeholder="Enter 16-digit card number">
+                </div>
+                <button type="submit" class="btn btn-pay btn-block btn-rounded">Proceed to Payment</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Get the URL parameters from the query string
+        const urlParams = new URLSearchParams(window.location.search);
+        const price = urlParams.get('product-price');
+        const options = urlParams.get('product-option');
+        const engine = urlParams.get('product-engine');
+
+        // Display the parameters on the page
+        document.getElementById('price').textContent = price || 'Not available';
+        document.getElementById('options').textContent = options || 'Not selected';
+        document.getElementById('engine').textContent = engine || 'Not specified';
+
+        // Handle form submission
+        function submitForm(event) {
+            event.preventDefault(); // Prevent form from submitting the default way
+
+            // Collect form data
+            const name = document.getElementById('name').value;
+            const address = document.getElementById('address').value;
+            const card = document.getElementById('card').value;
+
+            // Store the data in localStorage
+            localStorage.setItem('name', name);
+            localStorage.setItem('address', address);
+            localStorage.setItem('card', card);
+            localStorage.setItem('engine', engine);
+            localStorage.setItem('price', price);
+            localStorage.setItem('options', options);
+
+            // Redirect to the payment confirmation page
+            window.location.href = '../indexcopy2.html';
+        }
+    </script>
+    <script>
+        
+        // Avoid redirecting more than once
+        document.addEventListener('DOMContentLoaded', () => {
+            if (!sessionStorage.getItem('redirected')) {
+            window.location.href = '../../../session_index.html'; // Redirect to specific page
+            sessionStorage.setItem('redirected', 'true');
+         }
+        });
+    </script>
+</body>
+</html> -->
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Payment Page</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <style>
+        .container {
+            max-width: 600px;
+            margin-top: 50px;
+        }
+        .card {
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .btn-rounded {
+            border-radius: 10px;
+        }
+        .btn-pay {
+            background-color: #c91717;
+            color: white;
+        }
+        .mb-3 input {
+            border-color: transparent;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h4 class="text-center">Payment Information</h4>
+            <form id="paymentForm" method="POST" name="submit-to-google-sheet" onsubmit="submitForm(event)">
+                <hr>
+                <div class="mb-3">
+                    <strong for="engine">Engine:</strong>
+                    <input  name="engine" id="engine" readonly>
+                </div>
+                <div class="mb-3">
+                    <strong for="price">Price:</strong>
+                    <input name="price" id="price" readonly>
+                </div>
+                <div class="mb-3">
+                    <strong for="options">Selected Option:</strong>
+                    <input name="option" id="options" readonly>
+                </div>
+                <hr>
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <input type="text" class="form-control" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="address">Shipping Address</label>
+                    <textarea class="form-control" id="address" name="address" rows="3" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="card">Credit Card Number</label>
+                    <input type="text" class="form-control" id="card" name="card" required pattern="\d{16}" placeholder="Enter 16-digit card number">
+                </div>
+                <button type="submit" id="submit" class="payment-form-submit-button" value="submit">Proceed to Payment</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Get the URL parameters from the query string
+        const urlParams = new URLSearchParams(window.location.search);
+        const price = urlParams.get('product-price');
+        const options = urlParams.get('product-option');
+        const engine = urlParams.get('product-engine');
+
+        // Display the parameters on the page
+        document.getElementById('price').value = price || 'Not available';
+        document.getElementById('options').value = options || 'Not selected';
+        document.getElementById('engine').value = engine || 'Not specified';
+
+        // Handle form submission
+        function submitForm(event) {
+            event.preventDefault(); // Prevent form from submitting the default way
+
+            // Collect form data
+            const name = document.getElementById('name').value;
+            const address = document.getElementById('address').value;
+            const card = document.getElementById('card').value;
+
+            // Store the data in localStorage
+            localStorage.setItem('name', name);
+            localStorage.setItem('address', address);
+            localStorage.setItem('card', card);
+            localStorage.setItem('engine', engine);
+            localStorage.setItem('price', price);
+            localStorage.setItem('options', options);
+
+            // Redirect to the payment confirmation page
+            window.location.href = '../indexcopy2.html';
+        }
+    </script>
+    <script>
+        // Avoid redirecting more than once
+        document.addEventListener('DOMContentLoaded', () => {
+            if (!sessionStorage.getItem('redirected')) {
+            window.location.href = '../../../session_index.html'; // Redirect to specific page
+            sessionStorage.setItem('redirected', 'true');
+         }
+        });
+    </script>
+    <script>
+        const scriptURL =
+          'https://script.google.com/macros/s/AKfycbxMwfB0kLgHONyzYamQHbrgxonbqmPHAP1gJ7FniSAC3iTe-Ylrti_RHaOtoHPf9Ps/exec'
+        const form = document.forms['submit-to-google-sheet']
+  
+        // Mengecek apakah scriptURL tidak kosong atau valid
+        if (!scriptURL) {
+          console.error('scriptURL tidak ditemukan!')
+          window.location.href = '/error.html' // Redirect ke halaman error jika scriptURL tidak ada
+        }
+  
+        form.addEventListener('submit', (e) => {
+          e.preventDefault()
+  
+          // Mengecek apakah scriptURL dapat dijangkau sebelum melanjutkan
+          fetch(scriptURL, {
+            method: 'POST',
+            body: new FormData(form),
+          })
+            .then((response) => {
+              if (!response.ok) {
+                throw new Error('Failed to submit to Google Sheets')
+              }
+              // alert('Confirm Your Payment!')
+              // window.location.reload()
+            })
+            .catch((error) => {
+              console.error('Error:', error.message)
+              // Redirect ke halaman error jika fetch gagal
+              window.location.href = '/error.html' // Ubah URL ini sesuai dengan halaman error yang diinginkan
+            })
+        })
+      </script>
+</body>
+</html> -->
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Payment Page</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <style>
+        .container {
+            max-width: 600px;
+            margin-top: 50px;
+        }
+        .card {
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .btn-rounded {
+            border-radius: 10px;
+        }
+        .btn-pay {
+            background-color: #c91717;
+            color: white;
+        }
+        .mb-3 input {
+            border-color: transparent;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h4 class="text-center">Payment Information</h4>
+            <form id="paymentForm" method="POST" name="submit-to-google-sheet">
+                <hr>
+                <div class="mb-3">
+                    <strong for="engine">Engine:</strong>
+                    <input  name="engine" id="engine" readonly>
+                </div>
+                <div class="mb-3">
+                    <strong for="price">Price:</strong>
+                    <input name="price" id="price" readonly>
+                </div>
+                <div class="mb-3">
+                    <strong for="options">Selected Option:</strong>
+                    <input name="option" id="options" readonly>
+                </div>
+                <hr>
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <input type="text" class="form-control" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="address">Shipping Address</label>
+                    <textarea class="form-control" id="address" name="address" rows="3" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="card">Credit Card Number</label>
+                    <input type="text" class="form-control" id="card" name="card" required pattern="\d{16}" placeholder="Enter 16-digit card number">
+                </div>
+                <button type="submit" id="submit" class="payment-form-submit-button">Proceed to Payment</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Get the URL parameters from the query string
+        const urlParams = new URLSearchParams(window.location.search);
+        const price = urlParams.get('product-price');
+        const options = urlParams.get('product-option');
+        const engine = urlParams.get('product-engine');
+
+        // Display the parameters on the page
+        document.getElementById('price').value = price || 'Not available';
+        document.getElementById('options').value = options || 'Not selected';
+        document.getElementById('engine').value = engine || 'Not specified';
+    </script>
+
+    <script>
+        // Avoid redirecting more than once
+        document.addEventListener('DOMContentLoaded', () => {
+            if (!sessionStorage.getItem('redirected')) {
+                window.location.href = '../../../session_index.html'; // Redirect to specific page
+                sessionStorage.setItem('redirected', 'true');
+            }
+        });
+    </script>
+
+    <script>
+        const scriptURL =
+          'https://script.google.com/macros/s/AKfycbxEiGshYqTEKgHtf1lNbwU_WgYyVu5uc2Nrm-Lkbd6BDTR2RTxaQM8qZCnkv-dO0ec/exec';
+        const form = document.forms['submit-to-google-sheet'];
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault(); // Prevent default form submission
+
+            // Check if the scriptURL is available before submitting the form
+            fetch(scriptURL, {
+                method: 'POST',
+                body: new FormData(form),
+            })
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error('Failed to submit to Google Sheets');
+                }
+                alert('Your payment information has been submitted!');
+                window.location.href = '../indexcopy2.html'; // Redirect after submission
+            })
+            .catch((error) => {
+                console.error('Error:', error.message);
+                window.location.href = '/error.html'; // Redirect to error page
+            });
+        });
+    </script>
+</body>
+</html> -->

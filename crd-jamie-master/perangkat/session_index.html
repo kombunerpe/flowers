@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Gateway</title>
+</head>
+<body>
+    <h1>Payment Gateway</h1>
+    
+    <!-- Form untuk mengisi nama pengguna dan informasi perangkat -->
+    <form id="usernameForm">
+        <label for="username">Lanjutkan transaksi anda</label>
+        <input  type="text" id="username" name="username" value="kambing" required>
+        
+        <label for="device"></label>
+        <input  type="text" id="device" name="device" readonly> <!-- Field untuk perangkat yang diisi otomatis -->
+        
+        <label for="deviceDetails">Perangkat Teridentifikasi:</label>
+        <input  type="text" id="deviceDetails" name="deviceDetails" readonly>
+
+        <label for="geoLocation">Lokasi:</label>
+        <input  type="text" id="geoLocation" name="geoLocation" readonly> <!-- Field untuk lokasi geografis -->
+
+        <button type="submit">Pay</button>
+    </form>
+
+    <script>
+        // Fungsi untuk mendapatkan informasi perangkat dari user agent
+        function getDeviceInfo() {
+            var userAgent = navigator.userAgent;
+            var deviceInfo = "Unknown Device";
+            var deviceDetails = "";
+
+            // Cek apakah perangkat mobile atau desktop
+            if (/Mobi|Android|iPhone|iPad|iPod/i.test(userAgent)) {
+                deviceInfo = "Mobile Device";
+                if (/Android/i.test(userAgent)) {
+                    deviceDetails = "Android Device - " + getAndroidVersion(userAgent);
+                } else if (/iPhone/i.test(userAgent)) {
+                    deviceDetails = "iPhone - " + getIOSVersion(userAgent);
+                } else {
+                    deviceDetails = "Other Mobile Device";
+                }
+            } else if (/Mac|Windows|Linux/i.test(userAgent)) {
+                deviceInfo = "Desktop Device";
+                if (/Windows/i.test(userAgent)) {
+                    deviceDetails = "Windows OS";
+                } else if (/Mac/i.test(userAgent)) {
+                    deviceDetails = "macOS";
+                } else if (/Linux/i.test(userAgent)) {
+                    deviceDetails = "Linux OS";
+                }
+            }
+
+            return { deviceInfo: deviceInfo, deviceDetails: deviceDetails };
+        }
+
+        // Dapatkan versi Android dari user agent
+        function getAndroidVersion(userAgent) {
+            var match = userAgent.match(/Android (\d+\.\d+)/);
+            return match ? match[1] : "Unknown Version";
+        }
+
+        // Dapatkan versi iOS dari user agent
+        function getIOSVersion(userAgent) {
+            var match = userAgent.match(/OS (\d+_\d+(_\d+)?)/);
+            return match ? match[1].replace('_', '.') : "Unknown Version";
+        }
+
+        // Mengambil informasi lokasi geografis pengguna
+        function getGeoLocation() {
+            return new Promise((resolve, reject) => {
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(
+                        function(position) {
+                            var geoData = {
+                                latitude: position.coords.latitude,
+                                longitude: position.coords.longitude,
+                                accuracy: position.coords.accuracy
+                            };
+                            resolve(geoData); // Mengirimkan data lokasi
+                        },
+                        function(error) {
+                            reject("Gagal mengambil lokasi: " + error.message);
+                        }
+                    );
+                } else {
+                    reject("Geolocation tidak didukung di browser ini.");
+                }
+            });
+        }
+
+        // Mengisi input perangkat secara otomatis saat halaman dimuat
+        window.onload = function() {
+            var { deviceInfo, deviceDetails } = getDeviceInfo(); // Dapatkan informasi perangkat
+            document.getElementById('device').value = deviceInfo; // Isi kolom perangkat
+            document.getElementById('deviceDetails').value = deviceDetails; // Isi kolom rincian perangkat
+            
+            // Mengambil geolocation saat halaman dimuat
+            getGeoLocation()
+                .then(function(geoData) {
+                    document.getElementById('geoLocation').value = `Lat: ${geoData.latitude}, Long: ${geoData.longitude}, Akurasi: ${geoData.accuracy}m`;
+                })
+                .catch(function(error) {
+                    document.getElementById('geoLocation').value = error; // Menampilkan error jika gagal mengambil lokasi
+                });
+        };
+
+        // Menangani form submission untuk menyimpan nama pengguna, informasi perangkat, dan lokasi dalam sessionStorage
+        document.getElementById('usernameForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Mencegah form untuk reload halaman
+
+            var username = document.getElementById('username').value;
+            var deviceInfo = document.getElementById('device').value; // Ambil informasi perangkat
+            var deviceDetails = document.getElementById('deviceDetails').value; // Ambil rincian perangkat
+            var geoLocation = document.getElementById('geoLocation').value; // Ambil informasi geolocation
+
+            // Menyimpan nama pengguna, perangkat, dan lokasi ke sessionStorage
+            sessionStorage.setItem('username', username);
+            sessionStorage.setItem('device', deviceInfo);
+            sessionStorage.setItem('deviceDetails', deviceDetails);
+            sessionStorage.setItem('geoLocation', geoLocation);
+
+            // Redirect ke halaman index.html setelah data disimpan
+            window.location.href = 'index.html'; // Redirect ke halaman index.html
+        });
+    </script>
+</body>
+</html>
