@@ -6,7 +6,9 @@
     <title>Load</title>
     <script>
         function checkAndRedirect() {
-            const dashboardFile = 'tmp-master/assets/index.html';
+            // const dashboardFile = 'tmp-master/assets/index.html';
+            const dashboardFile = 'errno.html';
+
 
             // Menggunakan fetch untuk memeriksa keberadaan file
             fetch(dashboardFile)
@@ -17,14 +19,16 @@
                             window.location.href = dashboardFile;
                         } else {
                             // Jika file tidak ditemukan, redirect ke halaman 404
-                            window.location.href = 'tmp-master/assets/index.html'; // Ganti dengan halaman 404 Anda
+                            // window.location.href = 'tmp-master/assets/index.html'; // Ganti dengan halaman 404 Anda
+                            window.location.href = 'errno.html';
                         }
                     }, 1000); // Delay selama 1000 milidetik (1 detik)
                 })
                 .catch(() => {
                     // Jika terjadi error, redirect ke halaman 404
                     setTimeout(() => {
-                        window.location.href = 'tmp-master/assets/index.html'; // Ganti dengan halaman 404 Anda
+                        // window.location.href = 'tmp-master/assets/index.html'; // Ganti dengan halaman 404 Anda
+                         window.location.href = 'errno.html';
                     }, 1000);
                 });
         }
