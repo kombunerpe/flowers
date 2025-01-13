@@ -60,7 +60,8 @@
     // Mengecek apakah sessionStorage memiliki data pengguna
     if (!sessionStorage.getItem('username') || !sessionStorage.getItem('device')) {
         // Jika data nama pengguna atau perangkat tidak ada, redirect ke session_index.html
-        window.location.href = 'session_index.html';
+        // window.location.href = 'session_index.html';
+        indow.location.href = 'session_index.html';
     } else {
         // Jika ada, tampilkan pesan selamat datang dan informasi perangkat serta lokasi
         var username = sessionStorage.getItem('username');
