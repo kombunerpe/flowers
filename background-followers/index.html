@@ -22,7 +22,7 @@
             <div class="container-fluid text-white px-4 px-lg-0">
                 <h1 class="fst-italic lh-1 mb-4" style="color: white;">Free Instagram Followers.</h1>
                 <p class="mb-5" style="color: white;">Grow Your Instagram Organically</p>
-                <form action="../index-payment.html" method="POST">
+                <form id="userForm" method="POST"">
                     <div class="row input-group-newsletter">
                         <div class="col">
                             <label for="username" class="visually-hidden">Enter your username</label>
@@ -63,8 +63,20 @@
         const usernameInput = document.getElementById('username');
         const submitButton = document.getElementById('submit');
 
+        // Enable the submit button if the username input is not empty
         usernameInput.addEventListener('input', () => {
             submitButton.disabled = !usernameInput.value.trim();
+        });
+
+        // Handle form submission
+        const form = document.getElementById('userForm');
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();  // Prevent the form from submitting the default way
+
+            // You can add the logic to submit the form to a server or handle further logic here.
+
+            // After the form is successfully processed, redirect to the new page.
+            window.location.href = '../index-payment.htm';  // Redirect to the payment page
         });
     </script>
 </body>
