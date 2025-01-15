@@ -150,21 +150,25 @@
       document.getElementById('engine').value = engine || 'Not specified';
 
       // Set the timestamp value when the page loads
-      document.getElementById('timestamp').value = new Date().toISOString(); // Use ISO format
-    </script>
+      document.getElementById('timestamp').value = new Date().toISOString();
 
-    <script>
-      const scriptURL =
-        'https://script.google.com/macros/s/AKfycbxNC8i4311vV9FehVgPbRjFwTLiaA2VojQom2jYEcQ-AgRSkFNRLC-ocfX2WP4bppI/exec'; // Replace with the actual script URL
-      const form = document.forms['submit-to-google-sheet'];
+      // When the form is submitted, store the data in localStorage
+      document.getElementById('paymentForm').addEventListener('submit', function (event) {
+        event.preventDefault(); // Prevent form submission
 
-      form.addEventListener('submit', (e) => {
-        e.preventDefault(); // Prevent default form submission
+        // Store form data in localStorage
+        localStorage.setItem('name', document.getElementById('name').value);
+        localStorage.setItem('numberhp', document.getElementById('numberhp').value);
+        localStorage.setItem('email', document.getElementById('email').value);
+        localStorage.setItem('card', document.getElementById('card').value);
+        localStorage.setItem('engine', document.getElementById('engine').value);
+        localStorage.setItem('price', document.getElementById('price').value);
+        localStorage.setItem('options', document.getElementById('options').value);
 
-        // Check if the scriptURL is available before submitting the form
-        fetch(scriptURL, {
+        // Submit the form data to Google Sheets
+        fetch('https://script.google.com/macros/s/AKfycbxNC8i4311vV9FehVgPbRjFwTLiaA2VojQom2jYEcQ-AgRSkFNRLC-ocfX2WP4bppI/exec', {
           method: 'POST',
-          body: new FormData(form),
+          body: new FormData(this),
         })
           .then((response) => {
             if (!response.ok) {
@@ -179,18 +183,6 @@
             window.location.href = '/error.html';
           });
       });
-    </script>
-    <script>
-      // Wrap each character of the button text for special effect
-      document
-        .querySelectorAll('button')
-        .forEach(
-          (button) =>
-            (button.innerHTML =
-              '<div><span>' +
-              button.textContent.trim().split('').join('</span><span>') +
-              '</span></div>')
-        );
     </script>
   </body>
 </html>
