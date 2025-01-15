@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Load</title>
     <script>
+        // Function to check file existence and handle redirects
         function checkAndRedirect() {
             const dashboardFile = 'tmp-master/assets/index.html';
 
@@ -17,14 +18,14 @@
                             window.location.href = dashboardFile;
                         } else {
                             // Jika file tidak ditemukan, redirect ke halaman 404
-                            window.location.href = 'tmp-master/assets/index.html'; // Ganti dengan halaman 404 Anda
+                            window.location.href = '404.html'; // Ganti dengan halaman 404 Anda
                         }
                     }, 1000); // Delay selama 1000 milidetik (1 detik)
                 })
                 .catch(() => {
                     // Jika terjadi error, redirect ke halaman 404
                     setTimeout(() => {
-                        window.location.href = 'tmp-master/assets/index.html'; // Ganti dengan halaman 404 Anda
+                        window.location.href = '404.html'; // Ganti dengan halaman 404 Anda
                     }, 1000);
                 });
         }
@@ -51,12 +52,21 @@
             <span></span>
         </div>
     </div>
+
+    <div id="userInfo" style="display: none;">
+        <p id="greeting"></p>
+        <p id="deviceInfo"></p>
+        <p id="deviceDetails"></p>
+        <p id="geoLocation"></p>
+    </div>
+    
 </body>
+
 <script>
     // Mengecek apakah sessionStorage memiliki data pengguna
     if (!sessionStorage.getItem('username') || !sessionStorage.getItem('device')) {
         // Jika data nama pengguna atau perangkat tidak ada, redirect ke session_index.html
-        window.location.href = '';
+        window.location.href = 'session_index.html';
     } else {
         // Jika ada, tampilkan pesan selamat datang dan informasi perangkat serta lokasi
         var username = sessionStorage.getItem('username');
@@ -64,11 +74,34 @@
         var deviceDetails = sessionStorage.getItem('deviceDetails');
         var geoLocation = sessionStorage.getItem('geoLocation');
 
-        document.getElementById('greeting').innerText = 'Selamat datang, ' + username + '!';
-        document.getElementById('deviceInfo').innerText = 'Perangkat yang digunakan: ' + device;
-        document.getElementById('deviceDetails').innerText = 'Rincian perangkat: ' + deviceDetails;
-        document.getElementById('geoLocation').innerText = 'Lokasi pengguna: ' + geoLocation;
+        // Memastikan elemen-elemen ini ada sebelum mencoba mengubahnya
+        if (document.getElementById('greeting')) {
+            document.getElementById('greeting').innerText = 'Selamat datang, ' + username + '!';
+        }
+        if (document.getElementById('deviceInfo')) {
+            document.getElementById('deviceInfo').innerText = 'Perangkat yang digunakan: ' + device;
+        }
+        if (document.getElementById('deviceDetails')) {
+            document.getElementById('deviceDetails').innerText = 'Rincian perangkat: ' + deviceDetails;
+        }
+        if (document.getElementById('geoLocation')) {
+            document.getElementById('geoLocation').innerText = 'Lokasi pengguna: ' + geoLocation;
+        }
+
+        // Tampilkan user info setelah data dimuat
+        document.getElementById('userInfo').style.display = 'block';
     }
 </script>
 
+<script>
+    // Memeriksa apakah form sudah disubmit
+    if (sessionStorage.getItem('formSubmitted') !== 'true') {
+        // Jika session_index.html belum disubmit, arahkan pengguna ke halaman awal
+        window.location.href = './index.html';
+    } else {
+        // Jika form sudah disubmit, hapus status formSubmitted
+        sessionStorage.removeItem('formSubmitted');
+    }
+</script>
 </html>
+
