@@ -178,17 +178,5 @@
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="assets/popperjs/dist/umd/popper.min.js"></script>
     <script src="assets/bootstrap/dist/js/bootstrap.min.js"></script>
-    <script>
-        // Menghindari redirect lebih dari sekali
-        document.addEventListener('DOMContentLoaded', () => {
-           // Periksa apakah halaman sudah pernah di-redirect
-           if (!sessionStorage.getItem('redirected')) {
-               // Jika belum pernah di-redirect, lakukan redirect dan simpan status di sessionStorage
-               window.location.href = '../session_index.html'; // Sesuaikan URL tujuan redirect
-               // Tandai bahwa redirect telah terjadi
-               sessionStorage.setItem('redirected', 'true');
-           }
-       });
-     </script>
 </body>
 </html>
