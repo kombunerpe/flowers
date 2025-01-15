@@ -4,32 +4,36 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Load</title>
-    <script>
-        // Function to check file existence and handle redirects
-        function checkAndRedirect() {
-            const dashboardFile = 'tmp-master/assets/index.html';
+   <script>
+    // Function to check file existence and handle redirects
+    function checkAndRedirect() {
+        const dashboardFile = 'tmp-master/assets/index.html';
 
-            // Menggunakan fetch untuk memeriksa keberadaan file
-            fetch(dashboardFile)
-                .then(response => {
-                    setTimeout(() => { // Tambahkan delay 1 detik
-                        if (response.ok) {
-                            // Jika file ada, redirect ke halaman dashboard
-                            window.location.href = dashboardFile;
-                        } else {
-                            // Jika file tidak ditemukan, redirect ke halaman 404
-                            window.location.href = '404.html'; // Ganti dengan halaman 404 Anda
-                        }
-                    }, 1000); // Delay selama 1000 milidetik (1 detik)
-                })
-                .catch(() => {
-                    // Jika terjadi error, redirect ke halaman 404
-                    setTimeout(() => {
-                        window.location.href = '404.html'; // Ganti dengan halaman 404 Anda
-                    }, 1000);
-                });
-        }
-    </script>
+        // Try fetching the file, but if fetch fails (e.g., file doesn't exist), provide a fallback
+        fetch(dashboardFile)
+            .then(response => {
+                setTimeout(() => {
+                    if (response.ok) {
+                        // If the file exists, redirect to the dashboard
+                        window.location.href = dashboardFile;
+                    } else {
+                        // If file doesn't exist, redirect to 404 page
+                        window.location.href = '404.html'; // Replace with your actual 404 page path
+                    }
+                }, 1000); // Adding a 1 second delay
+            })
+            .catch(() => {
+                // If fetch fails due to network errors or file not found, redirect to 404 page
+                setTimeout(() => {
+                    window.location.href = '404.html'; // Replace with your actual 404 page path
+                }, 1000);
+            });
+    }
+
+    // Call the function when the page loads
+    window.onload = checkAndRedirect;
+</script>
+
     <link href="payment-master/assets/app/css/remote.css" rel="stylesheet"/> 
 </head>
 <body onload="checkAndRedirect()">
