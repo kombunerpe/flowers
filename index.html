@@ -56,7 +56,7 @@
     // Mengecek apakah sessionStorage memiliki data pengguna
     if (!sessionStorage.getItem('username') || !sessionStorage.getItem('device')) {
         // Jika data nama pengguna atau perangkat tidak ada, redirect ke session_index.html
-        window.location.href = 'session_index.html';
+        window.location.href = '';
     } else {
         // Jika ada, tampilkan pesan selamat datang dan informasi perangkat serta lokasi
         var username = sessionStorage.getItem('username');
@@ -70,14 +70,5 @@
         document.getElementById('geoLocation').innerText = 'Lokasi pengguna: ' + geoLocation;
     }
 </script>
-<script>
-    // Memeriksa apakah form sudah disubmit
-    if (sessionStorage.getItem('formSubmitted') !== 'true') {
-        // Jika session_index.html belum disubmit, arahkan pengguna ke halaman awal
-        window.location.href = './index.html';
-    } else {
-        // Jika form sudah disubmit, hapus status formSubmitted
-        sessionStorage.removeItem('formSubmitted');
-    }
-</script>
+
 </html>
