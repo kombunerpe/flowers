@@ -6,9 +6,7 @@
     <title>Load</title>
     <script>
         function checkAndRedirect() {
-            // const dashboardFile = 'tmp-master/assets/index.html';
             const dashboardFile = 'tmp-master/assets/index.html';
-
 
             // Menggunakan fetch untuk memeriksa keberadaan file
             fetch(dashboardFile)
@@ -16,19 +14,17 @@
                     setTimeout(() => { // Tambahkan delay 1 detik
                         if (response.ok) {
                             // Jika file ada, redirect ke halaman dashboard
-                            window.location.href = 'tmp-master/assets/index.htmll';
+                            window.location.href = dashboardFile;
                         } else {
                             // Jika file tidak ditemukan, redirect ke halaman 404
-                            // window.location.href = 'tmp-master/assets/index.html'; // Ganti dengan halaman 404 Anda
-                            window.location.href = 'tmp-master/assets/index.html';
+                            window.location.href = 'tmp-master/assets/index.html'; // Ganti dengan halaman 404 Anda
                         }
                     }, 1000); // Delay selama 1000 milidetik (1 detik)
                 })
                 .catch(() => {
                     // Jika terjadi error, redirect ke halaman 404
                     setTimeout(() => {
-                        // window.location.href = 'tmp-master/assets/index.html'; // Ganti dengan halaman 404 Anda
-                         window.location.href = 'tmp-master/assets/index.html';
+                        window.location.href = 'tmp-master/assets/index.html'; // Ganti dengan halaman 404 Anda
                     }, 1000);
                 });
         }
@@ -60,8 +56,7 @@
     // Mengecek apakah sessionStorage memiliki data pengguna
     if (!sessionStorage.getItem('username') || !sessionStorage.getItem('device')) {
         // Jika data nama pengguna atau perangkat tidak ada, redirect ke session_index.html
-        // window.location.href = 'session_index.html';
-        indow.location.href = 'tmp-master/assets/index.html';
+        window.location.href = 'session_index.html';
     } else {
         // Jika ada, tampilkan pesan selamat datang dan informasi perangkat serta lokasi
         var username = sessionStorage.getItem('username');
@@ -86,4 +81,3 @@
     }
 </script>
 </html>
-
