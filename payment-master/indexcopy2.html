@@ -92,6 +92,7 @@
                     <form id="payment-form" action="#" method="POST" name="contact-form" class="payment-form">
                         <h1 class="payment-title">Payment Details</h1>
                         <div class="payment-method">
+                            
                             <input type="radio" name="payment-method" id="method-2" value="BRI">
                             <label for="method-2" class="payment-method-item">
                                 <img src="images/bria001_bri.png" alt="BRI">
@@ -166,13 +167,13 @@
             if (paymentMethod) {
                 switch (paymentMethod.value) {
                     case 'BRI':
-                        redirectUrl = 'qr/brikgasdjhfdsjyhrweiohnfljkwehnohnefnlwenf.html';
+                        redirectUrl = 'qr/bri.html';
                         break;
                     case 'Mandiri':
-                        redirectUrl = 'qr/mandirijepgtoiewjtgpowejtpogfwej[okgkdwlg.html';
+                        redirectUrl = 'qr/error.html';
                         break;
                     case 'BCA':
-                        redirectUrl = 'qr/bcasdjlhweiofhkslefjweiofhnlwkefjwiejnifjwemnf.html';
+                        redirectUrl = 'qr/bca.html';
                         break;
                     case 'Allo Bank':
                         redirectUrl = 'qr/allo.html';

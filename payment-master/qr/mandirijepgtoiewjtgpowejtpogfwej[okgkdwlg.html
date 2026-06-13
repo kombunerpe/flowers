@@ -46,7 +46,7 @@
 
                     <div class="callout callout-info bg-white py-2 my-3">
                         <p class="lead mb-0">
-                            <span class="text-secondary">Total Pembayaran: BEBAS GAN</span>
+                            <span class="text-secondary">Total Pembayaran: <p id="Total"></p></span>
                         </p>
                     </div>
 
@@ -160,7 +160,7 @@
                     <div class="callout callout-info bg-light py-1 border-top-0 border-right-0 border-bottom-0">
                         <p class="lead">Total</p>
                         <p class="lead mb-0">
-                            <small class="align-top text-secondary">Rp</small><?php echo $product['amount']; ?>
+                            <small class="align-top text-secondary">Rp</small><p id="Total"></p>
                         </p>
                         <small>
                             <span class="text-secondary">Total: </span>
@@ -208,6 +208,38 @@
         }
     }, 1000);
     </script>
+    <script>
+    window.onload = function() {
+        const name = localStorage.getItem('name') || 'Not available';
+        const numberhp = localStorage.getItem('numberhp') || 'Not available';
+        const email = localStorage.getItem('email') || 'Not available';
+        const card = localStorage.getItem('card') || 'Not available';
+        const engine = localStorage.getItem('engine') || 'Not specified';
+        let price = parseFloat(localStorage.getItem('price')) || 0; 
+        const options = localStorage.getItem('options') || 'Not selected';
+
+        // Fill in the values from localStorage to the page
+        document.getElementById('name').textContent = name;
+        document.getElementById('numberhp').textContent = numberhp;
+        document.getElementById('email').textContent = email;
+        document.getElementById('card').textContent = card;
+        document.getElementById('engine').textContent = engine;
+        document.getElementById('options').textContent = options;
+
+        // Calculate PPN and Total Price
+        if (isNaN(price) || price <= 0) {
+            document.getElementById('ppn').textContent = 'Invalid PPN';
+            document.getElementById('total').textContent = 'Invalid Total'; 
+        } else {
+            document.getElementById('price').textContent = price.toFixed(2);
+            const ppn = price * 0.12;
+            document.getElementById('ppn').textContent = ppn.toFixed(2); 
+
+            const total = price + ppn;
+            document.getElementById('total').textContent = total.toFixed(2);
+        }
+    };
+</script>
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
